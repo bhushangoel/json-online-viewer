@@ -4,6 +4,11 @@
 
 - ```custom regex > done```
 - ```copy to clipboard > done```
+- add boolean type
+- add list of regex
+	- Phone
+	- email
+	- Country code
 - test after deploy
 
 
