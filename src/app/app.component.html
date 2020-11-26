@@ -1,7 +1,7 @@
 <div class="nav">
   <ul>
     <li class="home" *ngFor="let tab of tabs">
-      <a [ngClass]="{'active': tab.selected}" [routerLink]="tab.link" [routerLinkActive]="tab.isActiveLink">
+      <a [ngClass]="{'active1': tab.selected}" [routerLink]="tab.link">
         {{tab.label}}
       </a>
     </li>
@@ -9,4 +9,26 @@
 </div>
 
 <router-outlet></router-outlet>
+
+<footer class="footer fixed-bottom">
+  <div class="container">
+    <div class="row">
+      <div class="col-4">
+        <h5>About</h5>
+        <p>With JSON playground you can generate mock JSON and use that for the development purpose.
+          <br>
+          <br>
+          You just need to specify the properties and their types along with number of objects you want to create and a
+          dummy JSON will be generated for you to use.
+        </p>
+
+      </div>
+      <div class="col-4"></div>
+      <div class="col-4">
+        <h5>Other Links</h5>
+        <a target="_blank" routerLink="/regex-help">Commonly used Regex</a>
+      </div>
+    </div>
+  </div>
+</footer>
 

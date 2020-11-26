@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,7 @@ export class AppComponent {
   ];*/
   tabs = [
     {
-      label: 'Generate mock JSON',
+      label: 'JSON playground',
       link: '/generate',
       isActiveLink: 'active',
       selected: true

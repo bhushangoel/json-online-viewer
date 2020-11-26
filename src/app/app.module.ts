@@ -8,11 +8,13 @@ import {AppComponent} from './app.component';
 
 import {JsonGeneratorComponent} from './json-generator/json-generator.component';
 import {JsonGeneratorService} from './json-generator/json-generator.service';
+import { RegexHelpComponent } from './regex-help/regex-help.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    JsonGeneratorComponent
+    JsonGeneratorComponent,
+    RegexHelpComponent
   ],
   imports: [
     BrowserModule,

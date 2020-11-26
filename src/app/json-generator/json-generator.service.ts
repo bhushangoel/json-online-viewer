@@ -1,8 +1,10 @@
 import {Injectable} from '@angular/core';
 import RandExp from 'randexp';
+import {ValidationTypes} from './json-generator.config';
 
 @Injectable()
 export class JsonGeneratorService {
+  validationTypes;
   charactersMap = {
     lower: 'abcdefghijklmnopqrstuvwxyz',
     upper: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
@@ -10,7 +12,7 @@ export class JsonGeneratorService {
   };
 
   constructor() {
-
+    this.validationTypes = ValidationTypes;
   }
 
   generateJson(option: any): any {
@@ -30,7 +32,7 @@ export class JsonGeneratorService {
   getValue(data: any, obj: any, idx: number): any {
     // console.log('get value data : ');
     if (data.type === 'text' || data.type === 'textarea') {
-      const val = `${data.validations.prefix ? data.validations.prefix : ''} ${this.getRandomData(data.validations, data.type)} ${data.validations.postfix ? data.validations.postfix : ''}`;
+      const val = `${data.validations.prefix ? data.validations.prefix : ''}${this.getRandomData(data.validations, data.type)}${data.validations.postfix ? data.validations.postfix : ''}`;
       return val.trim();
     } else if (data.type === 'id') {
       return idx += 1;
@@ -40,13 +42,6 @@ export class JsonGeneratorService {
   }
 
   getRandomData(validation: any, type: string): any {
-    /*
-    * case: ""
-customRegex: "/[a-z]{6}/"
-maxLength: ""
-minLength: ""
-regex: "custom"
-    * */
     if (validation.regex === 'custom' && validation.customRegex !== '') {
       const randexp = new RandExp(validation.customRegex);
       return randexp.gen();
@@ -60,14 +55,15 @@ regex: "custom"
       } else {
         dataLength = Math.floor(Math.random() * (maxLength - minLength)) + minLength;
       }
-
       if (type === 'integer') {
         const result = Math.floor(Math.random() * 10) + 1;
-        // console.log('result integer : ', result);
         return result * Math.pow(10, dataLength - 1);
+      } else if (type === 'boolean') {
+        const result = Math.floor(Math.random() * 10) + 1;
+        return result % 2 === 0;
       } else {
-        let result = '';
-        let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        // let result = '';
+        /*let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         if (validation.regex === 'alphanumeric') {
           characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         } else if (validation.regex === 'alpha') {
@@ -80,7 +76,13 @@ regex: "custom"
         for (let i = 0; i < dataLength; i++) {
           result += characters.charAt(Math.floor(Math.random() * charactersLength));
         }
-        return result;
+        return result;*/
+        // @ts-ignore
+        const regexp = this.validationTypes.regex.filter(v => v.value === validation.regex)[0];
+        // @ts-ignore
+        const exp = regexp.regex.replace('*', `{${minLength},${maxLength}}`);
+        const randexp = new RandExp(exp);
+        return randexp.gen();
       }
     }
   }

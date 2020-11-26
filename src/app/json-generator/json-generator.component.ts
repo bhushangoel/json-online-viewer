@@ -21,7 +21,11 @@ export class JsonGeneratorComponent implements OnInit {
   validationTypes;
   selectedProperty = '';
   showValidations = false;
-  customRegexMutedText = 'example : [A-Z]{4} | [0-9]{3}[a-z]{4} [A-Z]{2}';
+  customRegexMuted = {
+    text: 'Common Expressions',
+    link: '/regex-help',
+    isActiveLink: 'active'
+  };
   validationOptionList = {};
   generatedJson = [];
   showGeneratedJson = false;
@@ -63,7 +67,8 @@ export class JsonGeneratorComponent implements OnInit {
     const selectedProperty = this.mockJsonObj.structure[idx].type;
     console.log('selectedProperty : ', selectedProperty);
     this.mockJsonObj.structure[idx].showValidations = false;
-    if (!selectedProperty || selectedProperty === 'id') {
+    const ignoreValidationsFor = ['id', 'boolean'];
+    if (!selectedProperty || ignoreValidationsFor.indexOf(selectedProperty) > -1) {
       return;
     }
 

@@ -2,7 +2,7 @@
 
   <div class="container">
     <div class="col-12">
-      <h2>Mock JSON generator</h2>
+      <h2 class="header">Mock JSON generator</h2>
     </div>
     <div class="separator"></div>
     <!--<div class="card-container">
@@ -87,7 +87,7 @@
                             [(ngModel)]="mockJsonObj.structure[idx]['validations'][option['inputType']['type']]"
                             (ngModelChange)="selectedValidationChanged($event, option, idx)">
                       <option *ngFor="let type of validationTypes[option['inputType']['type']]"
-                              [ngValue]="type.value">{{type.label}}</option>
+                              [ngValue]="type.value">{{type.label}} {{type.regex}}</option>
                     </select>
                     <small id="selectHelp" class="form-text text-muted"
                            *ngIf="option.mutedText">{{option.mutedText}}</small>
@@ -99,7 +99,7 @@
                            id="'regex-{{i}}'"
                            placeholder="Enter Custom Regex"
                            [(ngModel)]="mockJsonObj.structure[idx]['validations']['customRegex']">
-                    <small id="inputHelp2" class="form-text text-muted">{{customRegexMutedText}}</small>
+                    <small id="inputHelp2" class="form-text text-muted"><a target="_blank" [routerLink]="customRegexMuted.link" [routerLinkActive]="customRegexMuted.isActiveLink">{{customRegexMuted.text}}</a></small>
                   </div>
                 </div>
               </td>

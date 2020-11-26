@@ -3,7 +3,8 @@ const PropertyTypes = [
   {label: 'Unique Id', value: 'id'},
   {label: 'Text', value: 'text'},
   {label: 'Text Area', value: 'textarea'},
-  {label: 'Integer', value: 'integer'}
+  {label: 'Integer', value: 'integer'},
+  {label: 'Boolean', value: 'boolean'}
 ];
 
 const Validations = {
@@ -44,16 +45,6 @@ const Validations = {
       showWithCustomRegex: true,
     },
     {
-      label: 'Case',
-      value: 'case',
-      inputType: {
-        state: 'validationType',
-        tag: 'select',
-        type: 'case'
-      },
-      showWithCustomRegex: false,
-    },
-    {
       label: 'Prefix',
       value: 'prefix',
       inputType: {
@@ -85,16 +76,6 @@ const Validations = {
       },
       mutedText: 'Default value is Alphanumeric',
       showWithCustomRegex: true,
-    },
-    {
-      label: 'Case',
-      value: 'case',
-      inputType: {
-        state: 'validationType',
-        tag: 'select',
-        type: 'case'
-      },
-      showWithCustomRegex: false,
     },
     {
       label: 'Prefix',
@@ -145,15 +126,23 @@ const ValidationTypes = {
     },
     {
       label: 'Alpha numeric',
-      value: 'alphanumeric'
+      value: 'alphanumeric',
+      regex: '[A-Za-z0-9]*'
     },
     {
       label: 'Alphabets',
-      value: 'alpha'
+      value: 'alpha',
+      regex: '[A-Za-z]*'
     },
     {
       label: 'Natural numbers',
-      value: 'natural'
+      value: 'natural',
+      regex: '[1-9]*'
+    },
+    {
+      label: 'Phone Number',
+      value: 'phone',
+      regex: '[7-9]{1}[0-9]{9}'
     },
     {
       label: 'Custom Regex',
