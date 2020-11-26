@@ -1,14 +1,14 @@
-###New features 
-
+###New features
 ####Phase 1
 
-- ```custom regex > done```
-- ```copy to clipboard > done```
-- add boolean type
-- add list of regex
+- ```custom regex```
+- ```copy to clipboard```
+- ```add boolean type```
+- ```add list of regex
 	- Phone
 	- email
 	- Country code
+  ```
 - test after deploy
 
 
@@ -16,3 +16,6 @@
 - alert messages
 - objects and arrays
 - save and fetch
+
+###Issues
+- custom regex hides automatically after generate JSON click
