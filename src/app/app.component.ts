@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +7,26 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'json-play';
+  /*tabs = [
+    {
+      label: 'Generate mock JSON',
+      link: '/generate',
+      isActiveLink: 'active',
+      selected: true
+    },
+    {
+      label: 'About JSON playground',
+      link: '/about',
+      isActiveLink: 'active',
+      selected: false
+    }
+  ];*/
+  tabs = [
+    {
+      label: 'Generate mock JSON',
+      link: '/generate',
+      isActiveLink: 'active',
+      selected: true
+    }
+  ];
 }
