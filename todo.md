@@ -16,6 +16,7 @@
 - add raw | formatted | tree view option on json viewer page
 - function to add quotes around json keys on json view page
 - limit the size of json in viewer
+- show validation on invalid json in json viewer
 
 
 #### Phase 2
