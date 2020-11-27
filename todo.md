@@ -10,6 +10,8 @@
 	- Country code
   ```
 - test after deploy
+- change favicon
+- change title
 
 
 #### Phase 2
