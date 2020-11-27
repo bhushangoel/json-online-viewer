@@ -1,0 +1,4 @@
+<div class="message alert-{{msg.type}}" [ngClass]="{'hide': msg.hide}">
+  <div class="msg-content">{{msg.content}}</div>
+  <div class="close-msg" (click)="msg.hide = true">X</div>
+</div>

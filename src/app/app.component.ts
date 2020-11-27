@@ -24,10 +24,30 @@ export class AppComponent {
   ];*/
   tabs = [
     {
-      label: 'JSON playground',
+      label: 'Generate mock JSON',
       link: '/generate',
       isActiveLink: 'active',
       selected: true
+    },
+    {
+      label: 'JSON viewer',
+      link: '/json-viewer',
+      isActiveLink: 'active',
+      selected: false
     }
   ];
+
+  constructor() {
+
+  }
+
+  tabClicked(tab: any): void {
+    console.log('tab : ', tab);
+    this.tabs.forEach(t => {
+      t.selected = false;
+    });
+    const currentTab = this.tabs.filter(t => t.label === tab.label)[0];
+    currentTab.selected = true;
+  }
+
 }

@@ -80,7 +80,7 @@ p {
 }
 
 .content1 {
-  padding-bottom: 270px;
+  padding-bottom: 70px;
 }
 
 svg.material-icons {
@@ -311,3 +311,20 @@ svg#clouds {
   }
 }
 
+.copy-clipboard {
+  color: #007bff;
+  padding: 4px;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  border: 1px solid #007bff;
+
+  &:hover {
+    color: white;
+    background: #007bff;
+  }
+}
+
+.mt-20 {
+  margin-top: 20px;
+}

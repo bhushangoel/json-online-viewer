@@ -1,7 +1,8 @@
+<app-message-component></app-message-component>
 <div class="nav">
   <ul>
     <li class="home" *ngFor="let tab of tabs">
-      <a [ngClass]="{'active1': tab.selected}" [routerLink]="tab.link">
+      <a [ngClass]="{'active': tab.selected}" [routerLink]="tab.link" (click)="tabClicked(tab)">
         {{tab.label}}
       </a>
     </li>
@@ -13,20 +14,29 @@
 <footer class="footer fixed-bottom">
   <div class="container">
     <div class="row">
-      <div class="col-4">
-        <h5>About</h5>
-        <p>With JSON playground you can generate mock JSON and use that for the development purpose.
-          <br>
-          <br>
-          You just need to specify the properties and their types along with number of objects you want to create and a
-          dummy JSON will be generated for you to use.
-        </p>
+      <!--      <div class="col-4">-->
+      <!--<h5>About</h5>
+      <p>With JSON playground you can generate mock JSON and use that for the development purpose.
+        <br>
+        <br>
+        You just need to specify the properties and their types along with number of objects you want to create and a
+        dummy JSON will be generated for you to use.
+      </p>-->
+      <!--        <p>Copyright © 2020</p>-->
+      <!--        <span class="align-text-bottom">middle</span>-->
 
-      </div>
-      <div class="col-4"></div>
-      <div class="col-4">
+      <!--      </div>-->
+      <div class="col-10">
         <h5>Other Links</h5>
+        <a target="_blank" routerLink="/docs">Docs</a>
+        <span> | </span>
         <a target="_blank" routerLink="/regex-help">Commonly used Regex</a>
+      </div>
+      <div class="col-2 footer-social-icons">
+        <h5>Feedback/Issues</h5>
+        <a target="_blank" href="https://www.linkedin.com/in/bhushangoel"><i class="fab fa-linkedin"></i></a>
+        <span> | </span>
+        <a href="mailto:someone@example.com"><i class="fas fa-envelope"></i></a>
       </div>
     </div>
   </div>

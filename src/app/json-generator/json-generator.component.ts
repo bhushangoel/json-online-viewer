@@ -1,6 +1,7 @@
 import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import {PropertyTypes, Validations, ValidationTypes} from './json-generator.config';
 import {JsonGeneratorService} from './json-generator.service';
+import {MessageComponentService} from '../shared/message-component/message-component.service';
 // @ts-ignore
 import hljs from 'node_modules/highlight.js/lib/core';
 // @ts-ignore
@@ -42,7 +43,7 @@ export class JsonGeneratorComponent implements OnInit {
     ]
   };
 
-  constructor(private jsonGenerator: JsonGeneratorService) {
+  constructor(private jsonGenerator: JsonGeneratorService, private mcs: MessageComponentService) {
     this.propertyTypes = PropertyTypes;
     this.validations = Validations;
     this.validationTypes = ValidationTypes;
@@ -101,24 +102,28 @@ export class JsonGeneratorComponent implements OnInit {
 
   generateJson(): void {
     this.showGeneratedJson = false;
-    // console.log('final data : ', this.mockJsonObj);
 
     const size = this.mockJsonObj.structure.length;
+    this.mockJsonObj.numberOfRecords = +this.mockJsonObj.numberOfRecords;
     if (this.mockJsonObj.numberOfRecords < 1) {
-      alert('Minimum number of records should be 1');
+      this.mcs.show({type: 'danger', content: 'Minimum number of records should be 1'});
       return;
     }
     if (this.mockJsonObj.numberOfRecords > 20) {
-      alert('Currently we only support 20 records');
+      this.mcs.show({type: 'danger', content: 'Currently we only support 20 records'});
+      return;
+    }
+    if (size > 20) {
+      this.mcs.show({type: 'danger', content: 'Currently we only support 20 properties per object'});
       return;
     }
     for (let i = 0; i < size; i++) {
       if (!this.mockJsonObj.structure[i].name) {
-        alert('Please enter name');
+        this.mcs.show({type: 'danger', content: 'Name can not be empty'});
         return;
       }
       if (!this.mockJsonObj.structure[i].type) {
-        alert('Please select type');
+        this.mcs.show({type: 'danger', content: 'Please select type'});
         return;
       }
     }
@@ -126,7 +131,6 @@ export class JsonGeneratorComponent implements OnInit {
     setTimeout(() => {
       this.generatedJson = this.jsonGenerator.generateJson(this.mockJsonObj);
       this.showGeneratedJson = true;
-      console.log('generatedJson : ', this.generatedJson);
       this.highlightJson();
     });
   }
@@ -136,7 +140,6 @@ export class JsonGeneratorComponent implements OnInit {
 
     setTimeout(() => {
       document.querySelectorAll('pre code').forEach((block) => {
-        console.log('block called...', block);
         hljs.highlightBlock(block);
       });
     });
@@ -148,7 +151,7 @@ export class JsonGeneratorComponent implements OnInit {
       navigator.clipboard.writeText(content)
         .then((resp) => {
           /* clipboard successfully set */
-          console.log('Content copied successfully...');
+          this.mcs.show({type: 'success', content: 'Content copied successfully'});
         }, () => {
           /* clipboard write failed */
           console.log('Error in copying the content...');
@@ -157,9 +160,7 @@ export class JsonGeneratorComponent implements OnInit {
   }
 
   selectedValidationChanged(e: any, option: any, idx: number): void {
-    console.log('option : ', option);
     const type = this.mockJsonObj.structure[idx]['validations'][option['inputType']['type']];
-    console.log('type : ', type);
     this.showCustomRegexField = option.value === 'regex' && type === 'custom';
   }
 }

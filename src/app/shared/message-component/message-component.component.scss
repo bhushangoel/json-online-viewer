@@ -1,0 +1,35 @@
+.message {
+  margin: auto;
+  position: absolute;
+  top: 1%;
+  left: 0;
+  right: 0;
+  max-width: 50%;
+  border-radius: 5px;
+  z-index: 9999;
+  .msg-content {
+    width: 94%;
+    display: inline-block;
+    padding: 10px;
+  }
+  .close-msg {
+    width: 5%;
+    display: inline-block;
+    padding: 10px;
+  }
+  transition: top 500ms;
+}
+
+.hide {
+  top: -9%;
+}
+
+.close-msg {
+  cursor: pointer;
+}
+
+.alert-error {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}

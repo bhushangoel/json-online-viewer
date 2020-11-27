@@ -54,7 +54,7 @@
 }
 
 .footer {
-  height: 260px;
+  height: 67px;
   background: #1976d1;
   color: white;
   padding: 10px 0 5px 0;
@@ -62,5 +62,10 @@
   a {
     color: white;
     text-decoration: underline;
+    display: inline;
   }
+}
+
+.footer-social-icons > span, .footer-social-icons > a {
+  font-size: 22px;
 }

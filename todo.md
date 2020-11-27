@@ -9,6 +9,9 @@
 	- email
 	- Country code
   ```
+- ```alert messages```
+- ```JSON viewer added```
+- ```Docs and custom regex page added```
 - test after deploy
 - change favicon
 - change title
@@ -20,7 +23,7 @@
 
 
 #### Phase 2
-- alert messages
+
 - objects and arrays
 - save and fetch
 - security and validations

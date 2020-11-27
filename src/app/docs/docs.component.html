@@ -1,0 +1,37 @@
+<div class="content1" role="main">
+  <div class="container">
+    <div class="col-12">
+      <h2 class="header">Documentation</h2>
+    </div>
+    <div class="separator"></div>
+    <div class="row">
+      <div class="col-4">
+        <ul class="nav flex-column">
+          <li class="nav-item" *ngFor="let section of sectionList; let i = index">
+            <a class="nav-link" [ngClass]="{'active' : section.value === currentSelectedProperty}" (click)="showSectionHandler(section.value)">{{section.label}}</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-8">
+        <div *ngIf="showSection[currentSelectedProperty].display">
+          <table class="table">
+            <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Value</th>
+              <th scope="col">Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let data of showSection[currentSelectedProperty].data; let i = index">
+              <th scope="row">{{i+1}}</th>
+              <td>{{data.value}}</td>
+              <td [innerHTML]="data.description"></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

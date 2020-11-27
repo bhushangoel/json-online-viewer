@@ -8,13 +8,23 @@ import {AppComponent} from './app.component';
 
 import {JsonGeneratorComponent} from './json-generator/json-generator.component';
 import {JsonGeneratorService} from './json-generator/json-generator.service';
-import { RegexHelpComponent } from './regex-help/regex-help.component';
+import {RegexHelpComponent} from './regex-help/regex-help.component';
+import {JsonViewerComponent} from './json-viewer/json-viewer.component';
+import {JsonFormatterComponent} from './json-formatter/json-formatter.component';
+import {DocsComponent} from './docs/docs.component';
+import {MessageComponentComponent} from './shared/message-component/message-component.component';
+
+import {MessageComponentService} from './shared/message-component/message-component.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     JsonGeneratorComponent,
-    RegexHelpComponent
+    RegexHelpComponent,
+    JsonViewerComponent,
+    JsonFormatterComponent,
+    DocsComponent,
+    MessageComponentComponent
   ],
   imports: [
     BrowserModule,
@@ -22,7 +32,7 @@ import { RegexHelpComponent } from './regex-help/regex-help.component';
     BrowserAnimationsModule,
     FormsModule
   ],
-  providers: [JsonGeneratorService],
+  providers: [JsonGeneratorService, MessageComponentService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

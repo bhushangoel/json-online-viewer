@@ -1,0 +1,35 @@
+.format-handler {
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  padding: 10px 20px;
+  text-align: center;
+  position: absolute;
+  top: calc(50% - 23px);
+  cursor: pointer;
+}
+
+.viewer-control {
+  margin-bottom: 10px;
+  span.viewer-control-content {
+    border: 1px solid black;
+    padding: 5px;
+    /* margin-bottom: 5px; */
+    font-size: 10px;
+    cursor: pointer;
+    &.active {
+      background: #1976d1;
+      color: white;
+      border-color: #1976d1;
+    }
+  }
+}
+
+.raw-view {
+  padding: 10px;
+}
+
+.json-container-tree {
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+}

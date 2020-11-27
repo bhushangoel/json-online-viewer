@@ -1,0 +1,9 @@
+.nav-item {
+  cursor: pointer;
+}
+
+a.nav-link {
+  &.active {
+    border-left: 1px solid #007bff;
+  }
+}
