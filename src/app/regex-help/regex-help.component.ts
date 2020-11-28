@@ -36,9 +36,9 @@ export class RegexHelpComponent implements OnInit {
       name: 'Email ID',
       exp: '[a-z]{3,5}[0-9]{2,3}@[a-z]{4}[.]com',
       copied: false,
-      desc: `Generates a random length string containing only uppercase alphabets.<br><br>
-            <i>example: <br>1. REUYLKJCPNKNAP<br>
-            2. ABHGT</i>`
+      desc: `Generates a random email id.<br><br>
+            <i>example: <br>1. wbadh64@hfzx.com<br>
+            2. uyz51@bals.com</i>`
     },
     {
       name: 'Phone Number',

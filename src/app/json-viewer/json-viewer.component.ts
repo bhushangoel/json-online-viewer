@@ -1,10 +1,5 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-// @ts-ignore
-import hljs from 'node_modules/highlight.js/lib/core';
-// @ts-ignore
-import json from 'highlight.js/lib/languages/json';
-
-hljs.registerLanguage('json', json);
+import {Component, OnInit, ViewEncapsulation, ViewChild} from '@angular/core';
+import {JsonEditorComponent, JsonEditorOptions} from 'ang-jsoneditor';
 
 @Component({
   selector: 'app-json-viewer',
@@ -14,6 +9,32 @@ hljs.registerLanguage('json', json);
 })
 export class JsonViewerComponent implements OnInit {
   data: any;
+  editorOptions = [
+    {
+      options: new JsonEditorOptions(),
+      data: {
+        'prop1': 'abc',
+        'obj1': {
+          'objProp1': 1
+        }
+      }
+    },
+    {
+      options: new JsonEditorOptions(),
+      data: {
+        'products': [{
+          'name': 'car',
+          'product': [{
+            'name': 'honda',
+            'model': [{'id': 'civic', 'name': 'civic'}, {'id': 'accord', 'name': 'accord'}, {'id': 'crv', 'name': 'crv'}, {
+              'id': 'pilot',
+              'name': 'pilot'
+            }, {'id': 'odyssey', 'name': 'odyssey'}]
+          }]
+        }]
+      }
+    }
+  ];
   jsonViewerData = [
     {
       customData: `{
@@ -44,9 +65,27 @@ export class JsonViewerComponent implements OnInit {
       enableCopy: false
     }
   ];
-
+  @ViewChild(JsonEditorComponent, {static: false}) editor: JsonEditorComponent;
 
   constructor() {
+    this.editorOptions.forEach(o => {
+      o.options.modes = ['code', 'tree', 'view'];
+      o.options.expandAll = true;
+    });
+    // this.options.mode = 'code'; //set only one mode
+
+    this.data = {
+      'products': [{
+        'name': 'car',
+        'product': [{
+          'name': 'honda',
+          'model': [{'id': 'civic', 'name': 'civic'}, {'id': 'accord', 'name': 'accord'}, {'id': 'crv', 'name': 'crv'}, {
+            'id': 'pilot',
+            'name': 'pilot'
+          }, {'id': 'odyssey', 'name': 'odyssey'}]
+        }]
+      }]
+    };
   }
 
   ngOnInit(): void {
@@ -83,7 +122,7 @@ export class JsonViewerComponent implements OnInit {
 
   copyToClipboard(idx: number): void {
     if (navigator.clipboard) {
-      const content = JSON.stringify(this.jsonViewerData[idx].customJson);
+      const content = JSON.stringify(this.editorOptions[idx].data);
       navigator.clipboard.writeText(content)
         .then((resp) => {
           /* clipboard successfully set */
@@ -95,14 +134,11 @@ export class JsonViewerComponent implements OnInit {
     }
   }
 
-  changeType(type: string, idx: number): void {
-    if (type === 'code') {
-      setTimeout(() => {
-        document.querySelectorAll('pre code').forEach((block) => {
-          hljs.highlightBlock(block);
-        });
-      });
-    }
-    this.jsonViewerData[idx].showType = type;
+  onChangeJSON(e: any, idx: number): void {
+    this.editorOptions[idx].data = e;
+  }
+
+  onTextChange(e: any): void {
+    console.log('e : ', e);
   }
 }

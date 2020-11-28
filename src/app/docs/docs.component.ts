@@ -30,11 +30,7 @@ export class DocsComponent implements OnInit {
           },
           {
             value: 'Text',
-            description: 'Generate text value'
-          },
-          {
-            value: 'Textarea',
-            description: 'Generate long text values'
+            description: 'Generate string value'
           },
           {
             value: 'Integer',

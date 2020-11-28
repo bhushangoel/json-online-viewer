@@ -1,27 +1,14 @@
-import {Component} from '@angular/core';
-import {Router} from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {Router, NavigationEnd} from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'json-play';
-  /*tabs = [
-    {
-      label: 'Generate mock JSON',
-      link: '/generate',
-      isActiveLink: 'active',
-      selected: true
-    },
-    {
-      label: 'About JSON playground',
-      link: '/about',
-      isActiveLink: 'active',
-      selected: false
-    }
-  ];*/
+  currentRoute: string;
   tabs = [
     {
       label: 'Generate mock JSON',
@@ -37,12 +24,21 @@ export class AppComponent {
     }
   ];
 
-  constructor() {
+  constructor(private router: Router) {
 
   }
 
+  ngOnInit(): void {
+    this.router.events.subscribe(
+      (event: any) => {
+        if (event instanceof NavigationEnd) {
+          this.currentRoute = this.router.url;
+        }
+      }
+    );
+  }
+
   tabClicked(tab: any): void {
-    console.log('tab : ', tab);
     this.tabs.forEach(t => {
       t.selected = false;
     });

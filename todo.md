@@ -13,13 +13,14 @@
 - ```JSON viewer added```
 - ```Docs and custom regex page added```
 - test after deploy
-- change favicon
-- change title
-- remove heading from generate and view page
-- add raw | formatted | tree view option on json viewer page
-- function to add quotes around json keys on json view page
+- ```change favicon```
+- ```change title```
+- ```remove heading from generate and view page```
+- ```add raw | formatted | tree view option on json viewer page```
+- ```X function to add quotes around json keys on json view page X```
 - limit the size of json in viewer
-- show validation on invalid json in json viewer
+- ```show validation on invalid json in json viewer```
+
 
 
 #### Phase 2
@@ -30,3 +31,4 @@
 
 ###Issues
 - custom regex hides automatically after generate JSON click
+- ```active tab in nav bar is incorrect on page reload```

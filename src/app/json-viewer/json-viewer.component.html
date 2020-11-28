@@ -2,44 +2,21 @@
 
   <div class="container">
     <div class="row mt-20">
-      <div class="col-6" *ngFor="let c of jsonViewerData; let i = index">
+      <div class="col-6" *ngFor="let editor of editorOptions; let i = index">
         <p>Paste/Type <span class="info"
                             title="All properties and values should be in either doublequote or singlequote">valid <i
           class="fas fa-info-circle"></i></span> JSON
-          <span *ngIf="c.enableCopy" class="copy-clipboard" id="clipboard" title="Copy to Clipboard"
+          <span class="copy-clipboard" id="clipboard" title="Copy to Clipboard"
                 (click)="copyToClipboard(i)">
           Copy JSON
         </span>
         </p>
-        <div class="viewer-control">
-          <span class="viewer-control-content"
-                [ngClass]="{'active' : c.showType === 'raw'}"
-                (click)="changeType('raw', i)">RAW</span>
-          <span> | </span>
-          <span class="viewer-control-content"
-                [ngClass]="{'active' : c.showType === 'code'}"
-                (click)="changeType('code', i)">CODE</span>
-          <span> | </span>
-          <span class="viewer-control-content"
-                [ngClass]="{'active' : c.showType === 'tree'}"
-                (click)="changeType('tree', i)">TREE</span>
-        </div>
-        <textarea *ngIf="c.showType === 'raw'"
-                  name="" id=""
-                  cols="50" rows="20"
-                  class="raw-view"
-                  [(ngModel)]="c.customData"
-                  (ngModelChange)="ngModelChange($event, i)"></textarea>
-
-        <div class="json-container-tree" *ngIf="c.showType === 'tree'">
-          <app-json-formatter [data]="c.customJson" [levelOpen]="1"></app-json-formatter>
-        </div>
-
-        <pre #htmlPreElement *ngIf="c.showType === 'code'">
-            <code class="language-json json-container">
-              {{c.customJson | json}}
-            </code>
-        </pre>
+        <json-editor
+          [options]="editor.options"
+          [data]="editor.data"
+          (jsonChange)="onChangeJSON($event, i)"
+          (onChange)="onTextChange($event)"
+          style="max-height: 100vh;"></json-editor>
       </div>
     </div>
   </div>

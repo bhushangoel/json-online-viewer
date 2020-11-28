@@ -2,7 +2,7 @@
 <div class="nav">
   <ul>
     <li class="home" *ngFor="let tab of tabs">
-      <a [ngClass]="{'active': tab.selected}" [routerLink]="tab.link" (click)="tabClicked(tab)">
+      <a [ngClass]="{'active': tab.link === currentRoute}" [routerLink]="tab.link" (click)="tabClicked(tab)">
         {{tab.label}}
       </a>
     </li>

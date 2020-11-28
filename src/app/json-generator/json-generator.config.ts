@@ -2,7 +2,6 @@ const PropertyTypes = [
   {label: 'Choose type', value: ''},
   {label: 'Unique Id', value: 'id'},
   {label: 'Text', value: 'text'},
-  {label: 'Text Area', value: 'textarea'},
   {label: 'Integer', value: 'integer'},
   {label: 'Boolean', value: 'boolean'}
 ];
@@ -143,6 +142,11 @@ const ValidationTypes = {
       label: 'Phone Number',
       value: 'phone',
       regex: '[7-9]{1}[0-9]{9}'
+    },
+    {
+      label: 'Email ID',
+      value: 'email',
+      regex: '[a-z]{3,5}[0-9]{2,3}@[a-z]{4}[.]com'
     },
     {
       label: 'Custom Regex',

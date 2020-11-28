@@ -2,12 +2,7 @@ import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import {PropertyTypes, Validations, ValidationTypes} from './json-generator.config';
 import {JsonGeneratorService} from './json-generator.service';
 import {MessageComponentService} from '../shared/message-component/message-component.service';
-// @ts-ignore
-import hljs from 'node_modules/highlight.js/lib/core';
-// @ts-ignore
-import json from 'highlight.js/lib/languages/json';
-
-hljs.registerLanguage('json', json);
+import {JsonEditorComponent, JsonEditorOptions} from 'ang-jsoneditor';
 
 @Component({
   selector: 'app-json-generator',
@@ -31,6 +26,7 @@ export class JsonGeneratorComponent implements OnInit {
   generatedJson = [];
   showGeneratedJson = false;
   showCustomRegexField = false;
+  editorOptions: any;
   mockJsonObj = {
     numberOfRecords: 1,
     structure: [
@@ -137,12 +133,16 @@ export class JsonGeneratorComponent implements OnInit {
 
   highlightJson(): void {
     console.log('highlight json called : ');
+    this.editorOptions = new JsonEditorOptions();
+    this.editorOptions.modes = ['code', 'tree'];
+    this.editorOptions.expandAll = true;
+    // this.data = this.generatedJson;
 
-    setTimeout(() => {
+    /*setTimeout(() => {
       document.querySelectorAll('pre code').forEach((block) => {
         hljs.highlightBlock(block);
       });
-    });
+    });*/
   }
 
   copyToClipboard(containerid: string): void {

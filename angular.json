@@ -27,12 +27,11 @@
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "allowedCommonJsDependencies": [
-              "highlight.js"
+              "randexp"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "./node_modules/bootstrap/scss",
-                "./node_modules/highlight.js/scss"
+                "./node_modules/bootstrap/scss"
               ]
             },
             "assets": [
@@ -42,11 +41,9 @@
             "styles": [
               "src/styles.scss",
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
-              "node_modules/bootstrap/dist/css/bootstrap.css",
-              "node_modules/highlight.js/styles/atom-one-dark.css"
+              "node_modules/bootstrap/dist/css/bootstrap.css"
             ],
             "scripts": [
-              "node_modules/highlight.js/lib/core.js"
             ]
           },
           "configurations": {

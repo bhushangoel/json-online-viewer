@@ -154,4 +154,7 @@ let objLoop = (option, i, cb) => {
   // console.log('json obj : ', jsonObj)
 }
 
-generateJson(mockJsonObj)
+// generateJson(mockJsonObj)
+
+
+let a = `{a:'a'}`
