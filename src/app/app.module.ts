@@ -4,6 +4,7 @@ import {FormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
 import {NgJsonEditorModule} from 'ang-jsoneditor';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {AppComponent} from './app.component';
 import {JsonGeneratorComponent} from './json-generator/json-generator.component';
@@ -15,6 +16,7 @@ import {DocsComponent} from './docs/docs.component';
 import {MessageComponentComponent} from './shared/message-component/message-component.component';
 
 import {MessageComponentService} from './shared/message-component/message-component.service';
+import {JsonGeneratorTableComponent} from './json-generator-table/json-generator-table.component';
 
 @NgModule({
   declarations: [
@@ -24,14 +26,16 @@ import {MessageComponentService} from './shared/message-component/message-compon
     JsonViewerComponent,
     JsonFormatterComponent,
     DocsComponent,
-    MessageComponentComponent
+    MessageComponentComponent,
+    JsonGeneratorTableComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
-    NgJsonEditorModule
+    NgJsonEditorModule,
+    NgbModule
   ],
   providers: [JsonGeneratorService, MessageComponentService],
   bootstrap: [AppComponent]

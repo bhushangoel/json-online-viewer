@@ -8,12 +8,14 @@
       <div class="col-4">
         <ul class="nav flex-column">
           <li class="nav-item" *ngFor="let section of sectionList; let i = index">
-            <a class="nav-link" [ngClass]="{'active' : section.value === currentSelectedProperty}" (click)="showSectionHandler(section.value)">{{section.label}}</a>
+            <a class="nav-link" [ngClass]="{'active' : section.value === currentSelectedProperty}"
+               (click)="showSectionHandler(section.value)">{{section.label}}</a>
           </li>
         </ul>
       </div>
       <div class="col-8">
-        <div *ngIf="showSection[currentSelectedProperty].display">
+        <div
+          *ngIf="showSection[currentSelectedProperty].display && showSection[currentSelectedProperty].type === 'table'">
           <table class="table">
             <thead>
             <tr>
@@ -24,7 +26,7 @@
             </thead>
             <tbody>
             <tr *ngFor="let data of showSection[currentSelectedProperty].data; let i = index">
-              <th scope="row">{{i+1}}</th>
+              <th scope="row">{{i + 1}}</th>
               <td>{{data.value}}</td>
               <td [innerHTML]="data.description"></td>
             </tr>

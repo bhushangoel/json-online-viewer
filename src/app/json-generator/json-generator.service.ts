@@ -16,71 +16,76 @@ export class JsonGeneratorService {
   }
 
   generateJson(option: any): any {
-    const n = option.numberOfRecords;
-    const jsonArr = [];
-    let jsonObj = {};
-    for (let i = 0; i < n; i++) {
-      option.structure.forEach(o => {
-        jsonObj[o.name] = this.getValue(o, jsonObj, i);
-      });
-      jsonArr.push(jsonObj);
-      jsonObj = {};
+    console.log('option : ', option);
+    if (option.structType === 'array') {
+      const n = option.arrayLength;
+      const jsonArr = [];
+      for (let i = 0; i < n; i++) {
+        option.structure.forEach(o => {
+          jsonArr.push(this.getValue(o, i));
+        });
+      }
+      return jsonArr;
+    } else if (option.structType === 'arrayOfObject' || option.structType === 'object') {
+      const n = option.numberOfRecords || 1;
+      const jsonArr = [];
+      let jsonObj = {};
+      for (let i = 0; i < n; i++) {
+        option.structure.forEach(o => {
+          console.log('o : ', o);
+          if (o.structure.length > 0) {
+            const arr = this.generateJson(o);
+            console.log('arr : ', arr);
+            console.log('jsonArr : ', jsonArr);
+            jsonObj[o.name] = arr[0];
+          } else {
+            jsonObj[o.name] = this.getValue(o, i);
+          }
+        });
+        console.log('jsonObj : ', jsonObj);
+        jsonArr.push(jsonObj);
+        jsonObj = {};
+      }
+      console.log('jsonArr : ', jsonArr);
+      return jsonArr;
     }
-    return jsonArr;
   }
 
-  getValue(data: any, obj: any, idx: number): any {
-    // console.log('get value data : ');
-    if (data.type === 'text' || data.type === 'textarea') {
-      const val = `${data.validations.prefix ? data.validations.prefix : ''}${this.getRandomData(data.validations, data.type)}${data.validations.postfix ? data.validations.postfix : ''}`;
+  getValue(data: any, idx?: number): any {
+    if (data.structType === 'text' || data.structType === 'textarea') {
+      const val = `${data.validations.prefix ? data.validations.prefix : ''}${this.getRandomData(data.validations, data.structType)}${data.validations.postfix ? data.validations.postfix : ''}`;
       return val.trim();
-    } else if (data.type === 'id') {
+    } else if (data.structType === 'id') {
       return idx += 1;
     } else {
-      return this.getRandomData(data.validations, data.type);
+      return this.getRandomData(data.validations, data.structType);
     }
   }
 
-  getRandomData(validation: any, type: string): any {
+  getRandomData(validation: any, structType: string): any {
     if (validation.regex === 'custom' && validation.customRegex !== '') {
       const randexp = new RandExp(validation.customRegex);
       return randexp.gen();
     } else {
       const minLength = validation.minLength ? parseInt(validation.minLength) : 1;
       const maxLength = validation.maxLength ? parseInt(validation.maxLength) : 10;
-      // console.log('get random data called...')
       let dataLength = 1;
       if (minLength === maxLength) {
         dataLength = minLength;
       } else {
         dataLength = Math.floor(Math.random() * (maxLength - minLength)) + minLength;
       }
-      if (type === 'integer') {
+      if (structType === 'integer') {
         const result = Math.floor(Math.random() * 10) + 1;
         return result * Math.pow(10, dataLength - 1);
-      } else if (type === 'boolean') {
+      } else if (structType === 'boolean') {
         const result = Math.floor(Math.random() * 10) + 1;
         return result % 2 === 0;
       } else {
-        // let result = '';
-        /*let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        if (validation.regex === 'alphanumeric') {
-          characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        } else if (validation.regex === 'alpha') {
-          characters = validation.case && this.charactersMap[validation.case] ? this.charactersMap[validation.case] : this.charactersMap.mixed;
-        } else if (validation.regex === 'natural') {
-          characters = '123456789';
-        }
-
-        const charactersLength = characters.length;
-        for (let i = 0; i < dataLength; i++) {
-          result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        }
-        return result;*/
         // @ts-ignore
         const regexp = this.validationTypes.regex.filter(v => v.value === validation.regex)[0];
         // @ts-ignore
-        const exp = regexp.regex.replace('*', `{${minLength},${maxLength}}`);
+        const exp = regexp.regex ? regexp.regex.replace('*', `{${minLength},${maxLength}}`) : '[a-zA-Z0-9]*';
         const randexp = new RandExp(exp);
         return randexp.gen();
       }

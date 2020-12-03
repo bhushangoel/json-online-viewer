@@ -1,10 +1,20 @@
-const PropertyTypes = [
-  {label: 'Choose type', value: ''},
-  {label: 'Unique Id', value: 'id'},
-  {label: 'Text', value: 'text'},
-  {label: 'Integer', value: 'integer'},
-  {label: 'Boolean', value: 'boolean'}
-];
+const PropertyTypes = {
+  default: [
+    {label: 'Choose type', value: ''},
+    {label: 'Unique Id', value: 'id'},
+    {label: 'Text', value: 'text'},
+    {label: 'Integer', value: 'integer'},
+    {label: 'Boolean', value: 'boolean'},
+    {label: 'Object', value: 'object'}
+  ],
+  array:  [
+    {label: 'Choose type', value: ''},
+    {label: 'Unique Id', value: 'id'},
+    {label: 'Text', value: 'text'},
+    {label: 'Integer', value: 'integer'},
+    {label: 'Boolean', value: 'boolean'}
+  ]
+};
 
 const Validations = {
   default: [
@@ -32,39 +42,6 @@ const Validations = {
     }
   ],
   text: [
-    {
-      label: 'Regex',
-      value: 'regex',
-      inputType: {
-        state: 'validationType',
-        tag: 'select',
-        type: 'regex'
-      },
-      mutedText: 'Default value is Alphanumeric',
-      showWithCustomRegex: true,
-    },
-    {
-      label: 'Prefix',
-      value: 'prefix',
-      inputType: {
-        state: 'default',
-        tag: 'input',
-        type: 'text'
-      },
-      showWithCustomRegex: true,
-    },
-    {
-      label: 'Postfix',
-      value: 'postfix',
-      inputType: {
-        state: 'default',
-        tag: 'input',
-        type: 'text'
-      },
-      showWithCustomRegex: true,
-    }
-  ],
-  textarea: [
     {
       label: 'Regex',
       value: 'regex',

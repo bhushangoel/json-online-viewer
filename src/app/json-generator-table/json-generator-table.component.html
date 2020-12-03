@@ -1,0 +1,103 @@
+<table class="table table-dark" *ngIf="level <= 3">
+  <thead>
+  <tr>
+    <th scope="col">Actions</th>
+    <th scope="col" *ngIf="(moreInfo && moreInfo.structType !== 'array') || !moreInfo">
+      Property Name
+    </th>
+    <th scope="col">Property Type</th>
+    <th scope="col" *ngIf="currentIndex && mockJsonObj[currentIndex]['showValidations']">Validations</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let row of mockJsonObj; let idx = index">
+    <td>
+      <button type="button" class="btn btn-danger action-btn custom-form-control"
+              (click)="deleteCurrentRow(idx)"
+              [disabled]="mockJsonObj.length === 1"
+              title="Remove property">
+        <i class="fas fa-minus"></i>
+      </button>
+    </td>
+    <td *ngIf="(moreInfo && moreInfo.structType !== 'array') || !moreInfo">
+      <div class="col3">
+        <label class="sr-only" for="name-{{idx}}">Property Name</label>
+        <input type="text" class="form-control mb-2 custom-form-control" id="name-{{idx}}"
+               [(ngModel)]="mockJsonObj[idx]['name']"
+               placeholder="Property Name">
+      </div>
+    </td>
+    <!--<td *ngIf="currentSelectedProperty === 'array'">
+      <label class="sr-only" for="arrLen-{{idx}}">Array Length</label>
+      <input type="number" class="form-control mb-2 custom-form-control" id="arrLen-{{idx}}"
+             [(ngModel)]="mockJsonObj[idx]['arrLen']"
+             placeholder="Array Length" [min]="1" [max]="30">
+    </td>-->
+    <td>
+      <div class="col4">
+        <div
+          class="col-12">
+          <label class="form-check sr-only" for="type">Select Type</label>
+          <select class="custom-select custom-form-control" name="propertyType" id="type"
+                  (change)="propertyTypeSelected(idx, level+1)" [(ngModel)]="mockJsonObj[idx]['structType']">
+            <option *ngFor="let type of propertyTypes" [ngValue]="type.value">{{type.label}}</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- child structure -->
+      <app-json-generator-table *ngIf="mockJsonObj[idx]['structType'] === 'object'"
+                                [mockJsonObj]="mockJsonObj[idx]['structure']"
+                                [level]="level+1"></app-json-generator-table>
+    </td>
+    <td *ngIf="row.showValidations">
+      <div class="form-group row" *ngFor="let option of validationOptionList[idx]; let i = index">
+        <!--            <label for="{{option['value']}}-{{i}}" class="col-sm-4 col-form-label">{{option['label']}}</label>-->
+        <div class="col-sm-12"
+             *ngIf="option!.inputType.tag === 'input' && (option['showWithCustomRegex'] || (!option['showWithCustomRegex'] && !mockJsonObj[idx]['validations']['showCustomRegexField']))">
+          <input type="'{{option!.inputType.type}}'"
+                 class="form-control custom-form-control"
+                 id="'{{option['value']}}-{{i}}'"
+                 [placeholder]="option.label"
+                 [(ngModel)]="mockJsonObj[idx]['validations'][option['value']]">
+          <small id="inputHelp" class="form-text text-muted"
+                 *ngIf="option.mutedText">{{option.mutedText}}</small>
+        </div>
+
+        <div class="col-sm-12"
+             *ngIf="option!.inputType.tag === 'select' && (option['showWithCustomRegex'] || (!option['showWithCustomRegex'] && !mockJsonObj[idx]['validations']['showCustomRegexField']))">
+          <select *ngIf="option!.inputType.state === 'validationType'"
+                  class="custom-select custom-form-control" name="{{option['value']}}-{{i}}"
+                  id="{{option['value']}}-{{i}}"
+                  [(ngModel)]="mockJsonObj[idx]['validations'][option['inputType']['type']]"
+                  (ngModelChange)="selectedValidationChanged($event, option, idx)">
+            <option *ngFor="let type of validationTypes[option['inputType']['type']]"
+                    [ngValue]="type.value">{{type.label}} {{type.regex}}</option>
+          </select>
+          <small id="selectHelp" class="form-text text-muted"
+                 *ngIf="option.mutedText">{{option.mutedText}}</small>
+        </div>
+
+        <div class="col-sm-12"
+             *ngIf="mockJsonObj[idx]['validations']['showCustomRegexField'] && option['value'] === 'regex'">
+          <input type="text"
+                 class="form-control custom-form-control"
+                 id="'regex-{{i}}'"
+                 placeholder="Enter Custom Regex"
+                 [(ngModel)]="mockJsonObj[idx]['validations']['customRegex']">
+          <small id="inputHelp2" class="form-text text-muted"><a target="_blank"
+                                                                 [routerLink]="customRegexMuted.link"
+                                                                 [routerLinkActive]="customRegexMuted.isActiveLink">{{customRegexMuted.text}}</a></small>
+        </div>
+      </div>
+    </td>
+  </tr>
+  <tr *ngIf="showArrayOfObjStruct">
+    <td colspan="4">
+      <button type="button" class="btn btn-outline-primary btn-lg btn-block" (click)="addNewRow(level)">
+        Add more properties
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>

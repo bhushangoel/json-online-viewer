@@ -1,5 +1,4 @@
-###New features
-####Phase 1
+##Phase 1
 
 - ```custom regex```
 - ```copy to clipboard```
@@ -22,13 +21,19 @@
 - ```show validation on invalid json in json viewer```
 
 
+####Issues : phase 1
+- ```custom regex hides automatically after generate JSON click```
+- ```active tab in nav bar is incorrect on page reload```
+- ```adjust height of json editor```
 
-#### Phase 2
+##Phase 2
 
 - objects and arrays
 - save and fetch
 - security and validations
+- analytics
+- seo
+- ads
+- Option to export and paste generate mock json data
+- save generate mock object in local storage
 
-###Issues
-- custom regex hides automatically after generate JSON click
-- ```active tab in nav bar is incorrect on page reload```

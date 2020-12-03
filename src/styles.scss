@@ -331,9 +331,11 @@ svg#clouds {
 }
 
 textarea.jsoneditor-text {
-  min-height: 350px;
+  height: calc(100vh - 250px);
 }
 
-.ace_editor.ace-jsoneditor {
-  min-height: 100vh;
+.ace_editor.ace-jsoneditor, div.jsoneditor-tree {
+  height: calc(100vh - 250px) !important;
 }
+
+

@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {MessageComponentService} from '../shared/message-component/message-component.service';
 
 @Component({
   selector: 'app-regex-help',
@@ -50,7 +51,7 @@ export class RegexHelpComponent implements OnInit {
   ];
 
 
-  constructor() {
+  constructor(private mcs: MessageComponentService) {
   }
 
   ngOnInit(): void {
@@ -61,14 +62,14 @@ export class RegexHelpComponent implements OnInit {
       navigator.clipboard.writeText(data.exp)
         .then((resp) => {
           /* clipboard successfully set */
-          console.log('Content copied successfully...');
+          this.mcs.show({type: 'success', content: 'Content copied successfully'});
           data.copied = true;
           setTimeout(() => {
             data.copied = false;
           }, 1000);
         }, () => {
           /* clipboard write failed */
-          console.log('Error in copying the content...');
+          this.mcs.show({type: 'danger', content: 'console.log(\'Error in copying the content...\');'});
         });
     }
   }

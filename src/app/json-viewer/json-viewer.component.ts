@@ -1,5 +1,6 @@
 import {Component, OnInit, ViewEncapsulation, ViewChild} from '@angular/core';
 import {JsonEditorComponent, JsonEditorOptions} from 'ang-jsoneditor';
+import {MessageComponentService} from '../shared/message-component/message-component.service';
 
 @Component({
   selector: 'app-json-viewer',
@@ -67,12 +68,12 @@ export class JsonViewerComponent implements OnInit {
   ];
   @ViewChild(JsonEditorComponent, {static: false}) editor: JsonEditorComponent;
 
-  constructor() {
-    this.editorOptions.forEach(o => {
+  constructor(private mcs: MessageComponentService) {
+    this.editorOptions.forEach((o, i) => {
       o.options.modes = ['code', 'tree', 'view'];
+      o.options.mode = i === 0 ? 'code' : 'tree';
       o.options.expandAll = true;
     });
-    // this.options.mode = 'code'; //set only one mode
 
     this.data = {
       'products': [{
@@ -92,7 +93,6 @@ export class JsonViewerComponent implements OnInit {
   }
 
   ngModelChange($event: any, idx: number): void {
-    // $event = this.formatJsonHandler($event);
     this.jsonViewerData[idx].enableCopy = false;
     const str = $event.replace(/'/g, '"');
     try {
@@ -104,19 +104,14 @@ export class JsonViewerComponent implements OnInit {
   }
 
   formatJsonHandler(data: any): string {
-    console.log('data : ', data);
     const str = data.split('\n');
-    console.log('d : ', str);
     str.forEach(d => {
       let s = d.split(':');
-      console.log('s : ', s, s.length);
       if (s.length) {
-
         d = `'${d}'`;
       }
       s = s.join(':');
     });
-    console.log('str 2 : ', str);
     return str.join('\n');
   }
 
@@ -126,10 +121,10 @@ export class JsonViewerComponent implements OnInit {
       navigator.clipboard.writeText(content)
         .then((resp) => {
           /* clipboard successfully set */
-          console.log('Content copied successfully...');
+          this.mcs.show({type: 'success', content: 'Content copied successfully'});
         }, () => {
           /* clipboard write failed */
-          console.log('Error in copying the content...');
+          this.mcs.show({type: 'danger', content: 'Error in copying the content'});
         });
     }
   }
@@ -139,6 +134,6 @@ export class JsonViewerComponent implements OnInit {
   }
 
   onTextChange(e: any): void {
-    console.log('e : ', e);
+    // console.log('e : ', e);
   }
 }

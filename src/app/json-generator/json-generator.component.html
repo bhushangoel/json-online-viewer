@@ -1,132 +1,80 @@
 <div class="content1" role="main">
 
   <div class="container">
-    <!--<div class="col-12">
-      <h2 class="header">Mock JSON generator</h2>
-    </div>
-    <div class="separator"></div>-->
-    <!--<div class="card-container">
-      <a class="card" rel="noopener" (click)="changeFrom('scratch')">
-        <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-          <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/>
-        </svg>
-
-        <span>From Scratch</span>
-
-        <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-          <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-        </svg>
-      </a>
-
+<!--    <div class="row">
+      <div class="col-6">
+        <div class="col-6">
+          <div class="card-container">
+            <a class="card" rel="noopener" (click)="changeFrom('ui')">
+              <span>From UI</span>
+            </a>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="card-container">
+            <a class="card" rel="noopener" (click)="changeFrom('schema')">
+              <span>From JSON Schema</span>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>-->
 
     <div class="row mt-20">
-      <div class="col-7">
-        <div *ngIf="from === 'scratch'">
-          <div class="form-group row">
-            <label for="numObj" class="col-sm-6 col-form-label obj-count">Number of Objects</label>
-            <div class="col-sm-6">
-              <input type="text" class="form-control" id="numObj" [(ngModel)]="mockJsonObj.numberOfRecords"
-                     [pattern]="">
+      <div class="col-12">
+        <div *ngIf="from === 'ui'">
+          <form>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="structType">Structure Type</label>
+                <select class="form-control" name="structType" id="structType" [(ngModel)]="mockJsonObj.structType"
+                        (ngModelChange)="onInfoChange()">
+                  <option [ngValue]="option.value" *ngFor="let option of structTypeObj">{{option.label}}</option>
+                </select>
+              </div>
+              <div class="form-group col-md-6" *ngIf="mockJsonObj.structType === 'arrayOfObject'">
+                <label for="numObj">Number of Objects</label>
+                <input type="number" name="numObj" class="form-control" id="numObj" [min]="1" [max]="20"
+                       [(ngModel)]="mockJsonObj.numberOfRecords" (ngModelChange)="onInfoChange()">
+              </div>
+              <div class="form-group col-md-6" *ngIf="mockJsonObj.structType === 'array'">
+                <label for="arrLen">Length of Array</label>
+                <input type="number" name="numObj" class="form-control" id="arrLen" [min]="1" [max]="100"
+                       [(ngModel)]="mockJsonObj.arrayLength" (ngModelChange)="onInfoChange()">
+              </div>
             </div>
-          </div>
-
-          <table class="table table-dark">
-            <thead>
-            <tr>
-              <th scope="col">Actions</th>
-              <th scope="col">Property Name</th>
-              <th scope="col">Property Type</th>
-              <th scope="col" *ngIf="mockJsonObj.structure[0].showValidations">Validations</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let row of mockJsonObj.structure; let idx = index">
-              <td>
-                <button type="button" class="btn btn-danger action-btn custom-form-control"
-                        (click)="deleteCurrentRow(idx)"
-                        [disabled]="mockJsonObj.structure.length === 1"
-                        title="Remove property">
-                  <i class="fas fa-minus"></i>
-                </button>
-              </td>
-              <td>
-                <div class="col3">
-                  <label class="sr-only" for="name-{{idx}}">Property Name</label>
-                  <input type="text" class="form-control mb-2 custom-form-control" id="name-{{idx}}"
-                         [(ngModel)]="mockJsonObj.structure[idx]['name']"
-                         placeholder="Property Name">
-                </div>
-              </td>
-              <td>
-                <div class="col4">
-                  <label class="form-check sr-only" for="type">Select Type</label>
-                  <select class="custom-select custom-form-control" name="propertyType" id="type"
-                          (change)="propertyTypeSelected(idx)" [(ngModel)]="mockJsonObj.structure[idx]['type']">
-                    <option *ngFor="let type of propertyTypes" [ngValue]="type.value">{{type.label}}</option>
-                  </select>
-                </div>
-              </td>
-              <td *ngIf="row.showValidations">
-                <div class="form-group row" *ngFor="let option of validationOptionList[idx]; let i = index">
-                  <!--            <label for="{{option['value']}}-{{i}}" class="col-sm-4 col-form-label">{{option['label']}}</label>-->
-                  <div class="col-sm-12" *ngIf="option!.inputType.tag === 'input' && (option['showWithCustomRegex'] || (!option['showWithCustomRegex'] && !showCustomRegexField))">
-                    <input type="'{{option!.inputType.type}}'"
-                           class="form-control custom-form-control"
-                           id="'{{option['value']}}-{{i}}'"
-                           [placeholder]="option.label"
-                           [(ngModel)]="mockJsonObj.structure[idx]['validations'][option['value']]">
-                    <small id="inputHelp" class="form-text text-muted"
-                           *ngIf="option.mutedText">{{option.mutedText}}</small>
-                  </div>
-
-                  <div class="col-sm-12" *ngIf="option!.inputType.tag === 'select' && (option['showWithCustomRegex'] || (!option['showWithCustomRegex'] && !showCustomRegexField))">
-                    <select *ngIf="option!.inputType.state === 'validationType'"
-                            class="custom-select custom-form-control" name="{{option['value']}}-{{i}}"
-                            id="{{option['value']}}-{{i}}"
-                            [(ngModel)]="mockJsonObj.structure[idx]['validations'][option['inputType']['type']]"
-                            (ngModelChange)="selectedValidationChanged($event, option, idx)">
-                      <option *ngFor="let type of validationTypes[option['inputType']['type']]"
-                              [ngValue]="type.value">{{type.label}} {{type.regex}}</option>
-                    </select>
-                    <small id="selectHelp" class="form-text text-muted"
-                           *ngIf="option.mutedText">{{option.mutedText}}</small>
-                  </div>
-
-                  <div class="col-sm-12" *ngIf="showCustomRegexField && option['value'] === 'regex'">
-                    <input type="text"
-                           class="form-control custom-form-control"
-                           id="'regex-{{i}}'"
-                           placeholder="Enter Custom Regex"
-                           [(ngModel)]="mockJsonObj.structure[idx]['validations']['customRegex']">
-                    <small id="inputHelp2" class="form-text text-muted"><a target="_blank" [routerLink]="customRegexMuted.link" [routerLinkActive]="customRegexMuted.isActiveLink">{{customRegexMuted.text}}</a></small>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="4">
-                <button type="button" class="btn btn-outline-primary btn-lg btn-block" (click)="addNewRow()">
-                  Add more properties
-                </button>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-          <button type="button" class="btn btn-primary btn-lg btn-block" (click)="generateJson()">Generate JSON</button>
+          </form>
+          <app-json-generator-table [mockJsonObj]="mockJsonObj.structure" [moreInfo]="moreInfo"
+                                    [level]="1"></app-json-generator-table>
+          <button type="button" class="btn btn-primary btn-lg btn-block"
+                  (click)="generateJson(mymodal)">Generate JSON
+          </button>
         </div>
-      </div>
 
-      <div class="col-5" *ngIf="showGeneratedJson">
-        <h4>Mock JSON
-        <span class="copy-clipboard" id="clipboard" title="Copy to Clipboard" (click)="copyToClipboard('json-container')">
-          Copy JSON
-        </span></h4>
-        <json-editor
-          [options]="editorOptions"
-          [data]="generatedJson"
-          style="min-height: 100vh;"></json-editor>
+        <div *ngIf="from === 'schema'">
+          <json-editor [options]="editorOptions"
+                       [data]="generatedJson"></json-editor>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+
+<!--modal-->
+<ng-template #mymodal let-modal>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12" *ngIf="showGeneratedJson">
+        <h4>Mock JSON
+          <span class="copy-clipboard" id="clipboard" title="Copy to Clipboard"
+                (click)="copyToClipboard('json-container')">
+          Copy JSON
+        </span></h4>
+        <json-editor
+          [options]="editorOptions"
+          [data]="generatedJson"></json-editor>
+      </div>
+    </div>
+  </div>
+</ng-template>
