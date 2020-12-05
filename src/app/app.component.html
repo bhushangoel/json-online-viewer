@@ -2,40 +2,44 @@
 <div class="wrapper">
   <div class="nav">
     <ul>
-      <li class="home" *ngFor="let tab of tabs">
-        <a [ngClass]="{'active': tab.link === currentRoute}" [routerLink]="tab.link" (click)="tabClicked(tab)">
-          {{tab.label}}
+      <li class="home">
+
+        <a [routerLink]="'/generate'">
+          <span>
+            <img src="assets/images/logo.png" class="logo" alt="logo">
+          </span>
+          {{"{"}} JSON Online Viewer }
+        </a>
+      </li>
+      <li style="position: absolute; right: 25px;">
+        <a href="mailto:bhushangoel91@gmail.com">
+          <i class="fa fa-envelope-open-text"></i>
         </a>
       </li>
     </ul>
   </div>
 
-  <router-outlet></router-outlet>
-
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-2">
+        <div class="list-group mt-27">
+          <a class="list-group-item list-group-item-action" *ngFor="let tab of tabs"
+             [ngClass]="{'active': tab.link === currentRoute}"
+             [routerLink]="tab.link" (click)="tabClicked(tab)">
+            {{tab.label}}
+          </a>
+        </div>
+      </div>
+      <div class="col-10">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
   <footer class="footer">
     <div class="container">
       <div class="row">
-        <!--      <div class="col-4">-->
-        <!--<h5>About</h5>
-        <p>With JSON playground you can generate mock JSON and use that for the development purpose.
-          <br>
-          <br>
-          You just need to specify the properties and their types along with number of objects you want to create and a
-          dummy JSON will be generated for you to use.
-        </p>-->
-        <!--        <p>Copyright © 2020</p>-->
-        <!--        <span class="align-text-bottom">middle</span>-->
-
-        <!--      </div>-->
         <div class="col-10">
-          <h5>Other Links</h5>
-          <a target="_blank" routerLink="/regex-help">Commonly used Regex</a>
-        </div>
-        <div class="col-2 footer-social-icons">
-          <h5>Feedback/Issues</h5>
-          <a target="_blank" href="https://www.linkedin.com/in/bhushangoel"><i class="fab fa-linkedin"></i></a>
-          <!--<span> | </span>
-          <a href="mailto:someone@example.com"><i class="fas fa-envelope"></i></a>-->
+          Copyright JSON Online Viewer 2020
         </div>
       </div>
     </div>

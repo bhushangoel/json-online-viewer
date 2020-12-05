@@ -72,7 +72,7 @@ export class JsonViewerComponent implements OnInit {
     this.editorOptions.forEach((o, i) => {
       o.options.modes = ['code', 'tree', 'view'];
       o.options.mode = i === 0 ? 'code' : 'tree';
-      o.options.expandAll = true;
+      o.options.expandAll = o.options.mode === 'tree';
     });
 
     this.data = {

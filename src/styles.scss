@@ -330,12 +330,16 @@ svg#clouds {
   margin-top: 20px;
 }
 
+.mt-27 {
+  margin-top: 27px;
+}
+
 textarea.jsoneditor-text {
-  height: calc(100vh - 250px);
+  height: calc(100vh - 190px);
 }
 
 .ace_editor.ace-jsoneditor, div.jsoneditor-tree {
-  height: calc(100vh - 250px) !important;
+  height: calc(100vh - 190px) !important;
 }
 
 

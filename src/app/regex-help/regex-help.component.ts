@@ -34,6 +34,14 @@ export class RegexHelpComponent implements OnInit {
             2. ABHGT</i>`
     },
     {
+      name: 'Choices',
+      exp: '(North|East|West|South)',
+      copied: false,
+      desc: `Assigns a random value from the expression separated with |.<br><br>
+            <i>example: <br>1. North<br>
+            2. West</i>`
+    },
+    {
       name: 'Email ID',
       exp: '[a-z]{3,5}[0-9]{2,3}@[a-z]{4}[.]com',
       copied: false,
@@ -69,7 +77,7 @@ export class RegexHelpComponent implements OnInit {
           }, 1000);
         }, () => {
           /* clipboard write failed */
-          this.mcs.show({type: 'danger', content: 'console.log(\'Error in copying the content...\');'});
+          this.mcs.show({type: 'danger', content: 'Error in copying the content'});
         });
     }
   }

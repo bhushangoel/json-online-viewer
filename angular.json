@@ -36,6 +36,8 @@
             },
             "assets": [
               "src/favicon.ico",
+              "src/sitemap.xml",
+              "src/sitemap2.xml",
               "src/assets"
             ],
             "styles": [

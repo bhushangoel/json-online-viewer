@@ -1,51 +1,40 @@
 <div class="content1" role="main">
 
-  <div class="container">
-<!--    <div class="row">
-      <div class="col-6">
-        <div class="col-6">
-          <div class="card-container">
-            <a class="card" rel="noopener" (click)="changeFrom('ui')">
-              <span>From UI</span>
-            </a>
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="card-container">
-            <a class="card" rel="noopener" (click)="changeFrom('schema')">
-              <span>From JSON Schema</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>-->
-
+  <div class="container-fluid">
     <div class="row mt-20">
       <div class="col-12">
         <div *ngIf="from === 'ui'">
           <form>
             <div class="form-row">
-              <div class="form-group col-md-6">
+              <div class="form-group"
+                   [ngClass]="{'col-5': showGeneratedJson || showResetBtn, 'col-6': !showGeneratedJson && !showResetBtn}">
                 <label for="structType">Structure Type</label>
                 <select class="form-control" name="structType" id="structType" [(ngModel)]="mockJsonObj.structType"
-                        (ngModelChange)="onInfoChange()">
+                        (ngModelChange)="onInfoChange('structType')">
                   <option [ngValue]="option.value" *ngFor="let option of structTypeObj">{{option.label}}</option>
                 </select>
               </div>
-              <div class="form-group col-md-6" *ngIf="mockJsonObj.structType === 'arrayOfObject'">
+              <div class="form-group col-md-6" *ngIf="mockJsonObj.structType !== 'array'">
                 <label for="numObj">Number of Objects</label>
                 <input type="number" name="numObj" class="form-control" id="numObj" [min]="1" [max]="20"
-                       [(ngModel)]="mockJsonObj.numberOfRecords" (ngModelChange)="onInfoChange()">
+                       [(ngModel)]="mockJsonObj.numberOfRecords" (ngModelChange)="onInfoChange('numObj')">
               </div>
               <div class="form-group col-md-6" *ngIf="mockJsonObj.structType === 'array'">
                 <label for="arrLen">Length of Array</label>
                 <input type="number" name="numObj" class="form-control" id="arrLen" [min]="1" [max]="100"
-                       [(ngModel)]="mockJsonObj.arrayLength" (ngModelChange)="onInfoChange()">
+                       [(ngModel)]="mockJsonObj.arrayLength" (ngModelChange)="onInfoChange('arrLen')">
+              </div>
+              <div class="col-1 reset-btn" *ngIf="showGeneratedJson || showResetBtn">
+                <button type="button" class="btn btn-outline-secondary"
+                        (click)="resetStorage()">Reset
+                </button>
               </div>
             </div>
           </form>
-          <app-json-generator-table [mockJsonObj]="mockJsonObj.structure" [moreInfo]="moreInfo"
-                                    [level]="1"></app-json-generator-table>
+          <app-json-generator-table [mockJsonObj]="mockJsonObj.structure"
+                                    [moreInfo]="moreInfo"
+                                    [level]="1"
+                                    (objUpdated)="onObjUpdate($event)"></app-json-generator-table>
           <button type="button" class="btn btn-primary btn-lg btn-block"
                   (click)="generateJson(mymodal)">Generate JSON
           </button>
@@ -63,14 +52,20 @@
 
 <!--modal-->
 <ng-template #mymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Mock JSON
+      <span class="copy-clipboard" id="clipboard" title="Copy to Clipboard"
+      (click)="copyToClipboard('json-container')">
+      Copy JSON
+      </span>
+    </h4>
+    <button type="button" class="close" aria-label="Close" style="outline: none;" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
   <div class="modal-body">
     <div class="row">
       <div class="col-12" *ngIf="showGeneratedJson">
-        <h4>Mock JSON
-          <span class="copy-clipboard" id="clipboard" title="Copy to Clipboard"
-                (click)="copyToClipboard('json-container')">
-          Copy JSON
-        </span></h4>
         <json-editor
           [options]="editorOptions"
           [data]="generatedJson"></json-editor>

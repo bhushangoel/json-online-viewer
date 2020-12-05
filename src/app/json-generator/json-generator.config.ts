@@ -1,3 +1,33 @@
+const StructType = [
+  {
+    label: 'Array of Objects',
+    value: 'arrayOfObject',
+    min: 1,
+    max: 20,
+    name: true,
+    type: true,
+    structureSizeLimit: true
+  },
+  {
+    label: 'Array of Objects: Fixed values',
+    value: 'arrayOfObjectFixed',
+    min: 1,
+    max: 20,
+    name: true,
+    type: true,
+    structureSizeLimit: true
+  },
+  {
+    label: 'Simple Array',
+    value: 'array',
+    min: 1,
+    max: 100,
+    name: false,
+    type: true,
+    structureSizeLimit: false
+  }
+];
+
 const PropertyTypes = {
   default: [
     {label: 'Choose type', value: ''},
@@ -7,7 +37,14 @@ const PropertyTypes = {
     {label: 'Boolean', value: 'boolean'},
     {label: 'Object', value: 'object'}
   ],
-  array:  [
+  arrayOfObjectFixed: [
+    {label: 'Choose type', value: ''},
+    {label: 'Text', value: 'fixedText'},
+    {label: 'Integer', value: 'fixedInteger'},
+    {label: 'Boolean', value: 'fixedBoolean'},
+    {label: 'Object', value: 'fixedObject'}
+  ],
+  array: [
     {label: 'Choose type', value: ''},
     {label: 'Unique Id', value: 'id'},
     {label: 'Text', value: 'text'},
@@ -132,4 +169,4 @@ const ValidationTypes = {
   ]
 };
 
-export {PropertyTypes, Validations, ValidationTypes};
+export {StructType, PropertyTypes, Validations, ValidationTypes};

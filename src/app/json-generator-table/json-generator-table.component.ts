@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter} from '@angular/core';
 import {PropertyTypes, Validations, ValidationTypes} from '../json-generator/json-generator.config';
 import {MessageComponentService} from '../shared/message-component/message-component.service';
 
@@ -11,6 +11,7 @@ export class JsonGeneratorTableComponent implements OnInit, OnChanges {
   @Input() mockJsonObj: any;
   @Input() moreInfo: any;
   @Input() level: number;
+  @Output() objUpdated = new EventEmitter<any>();
   propertyTypes;
   validations;
   validationTypes;
@@ -31,9 +32,12 @@ export class JsonGeneratorTableComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.moreInfo) {
+    if (changes.moreInfo && !changes.moreInfo.firstChange) {
       const currentValue = changes.moreInfo.currentValue;
       this.showArrayOfObjStruct = currentValue.structType !== 'array';
+      this.propertyTypes = PropertyTypes[currentValue.structType] || PropertyTypes.default;
+    } else if (changes.moreInfo && changes.moreInfo.currentValue) {
+      const currentValue = changes.moreInfo.currentValue;
       this.propertyTypes = PropertyTypes[currentValue.structType] || PropertyTypes.default;
     } else {
       this.propertyTypes = PropertyTypes.default;
@@ -41,18 +45,26 @@ export class JsonGeneratorTableComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-
+    this.mockJsonObj.forEach((o, i) => {
+      this.propertyTypeSelected(i, 1);
+    });
   }
 
   addNewRow(level: number): void {
-    if (level > 3) {
+    if (level > 2 && this.moreInfo.structType === 'arrayOfObjectFixed') {
       this.mcs.show({
         type: 'warning',
-        content: 'Only 3 levels are allowed. If you want to create more complex structure than please use Schema method.'
+        content: 'Only 2 levels are allowed.'
+      });
+      return;
+    } else if (level > 3) {
+      this.mcs.show({
+        type: 'warning',
+        content: 'Only 3 levels are allowed.'
       });
       return;
     }
-    console.log('level : ', level);
+    this.objUpdated.emit();
     this.mockJsonObj.push({
       name: '',
       structType: '',
@@ -61,7 +73,8 @@ export class JsonGeneratorTableComponent implements OnInit, OnChanges {
         regex: '',
         minLength: '',
         maxLength: '',
-        showCustomRegexField: false
+        showCustomRegexField: false,
+        showFixedInputField: false
       },
       structure: []
     });
@@ -69,6 +82,7 @@ export class JsonGeneratorTableComponent implements OnInit, OnChanges {
 
   deleteCurrentRow(idx: number): void {
     this.mockJsonObj.splice(idx, 1);
+    this.objUpdated.emit();
   }
 
   propertyTypeSelected(idx: number, level: number): void {
@@ -78,11 +92,10 @@ export class JsonGeneratorTableComponent implements OnInit, OnChanges {
     if (level > 3 && selectedProperty === 'object') {
       this.mcs.show({
         type: 'warning',
-        content: 'Only 3 levels are allowed. If you want to create more complex structure than please use Schema method.'
+        content: 'Only 3 levels are allowed.'
       });
       return;
     } else {
-
       this.mockJsonObj[idx].showValidations = false;
       const ignoreValidationsFor = ['id', 'boolean'];
       if (!selectedProperty || ignoreValidationsFor.indexOf(selectedProperty) > -1) {
@@ -102,12 +115,11 @@ export class JsonGeneratorTableComponent implements OnInit, OnChanges {
           },
           structure: []
         });
-        console.log('this.mockJsonObj : ', this.mockJsonObj);
         return;
       }
 
       if (selectedProperty === 'text' || selectedProperty === 'textarea') {
-        this.mockJsonObj[idx].validations = {
+        this.mockJsonObj[idx].validations = this.mockJsonObj[idx].validations || {
           regex: '',
           minLength: '',
           maxLength: '',
@@ -125,6 +137,31 @@ export class JsonGeneratorTableComponent implements OnInit, OnChanges {
       } else {
         this.mockJsonObj[idx].showValidations = true;
         this.validationOptionList[idx] = this.validations.default;
+      }
+      if (selectedProperty.indexOf('fixed') > -1) {
+        const i = this.validationOptionList[idx].findIndex(list => list.value === 'fixedValues');
+        if (i === -1 && selectedProperty !== 'fixedObject') {
+          this.validationOptionList[idx].forEach(list => list.hidden = true);
+          this.validationOptionList[idx].unshift(
+            {
+              label: 'Values',
+              value: 'fixedValues',
+              inputType: {
+                state: 'default',
+                tag: 'input',
+                type: 'text'
+              },
+              mutedText: 'Enter semi-colon(;) separated values',
+              showWithCustomRegex: false,
+            }
+          );
+        }
+      } else {
+        const i = this.validationOptionList[idx].findIndex(list => list.value === 'fixedValues');
+        if (i > -1) {
+          this.validationOptionList[idx].splice(i, 1);
+        }
+        this.validationOptionList[idx].forEach(list => list.hidden = false);
       }
     }
 

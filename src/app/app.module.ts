@@ -1,4 +1,4 @@
-import {BrowserModule} from '@angular/platform-browser';
+import {BrowserModule, Title, Meta} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -14,9 +14,10 @@ import {JsonViewerComponent} from './json-viewer/json-viewer.component';
 import {JsonFormatterComponent} from './json-formatter/json-formatter.component';
 import {DocsComponent} from './docs/docs.component';
 import {MessageComponentComponent} from './shared/message-component/message-component.component';
+import {JsonGeneratorTableComponent} from './json-generator-table/json-generator-table.component';
 
 import {MessageComponentService} from './shared/message-component/message-component.service';
-import {JsonGeneratorTableComponent} from './json-generator-table/json-generator-table.component';
+import {LocalStorageService} from './services/local-storage.service';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,7 @@ import {JsonGeneratorTableComponent} from './json-generator-table/json-generator
     NgJsonEditorModule,
     NgbModule
   ],
-  providers: [JsonGeneratorService, MessageComponentService],
+  providers: [Title, JsonGeneratorService, MessageComponentService, LocalStorageService, Meta],
   bootstrap: [AppComponent]
 })
 export class AppModule {
